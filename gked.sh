@@ -4,7 +4,7 @@
 helpFunction()
 {
    echo ""
-   echo "Usage: $0 -a encrypt -t pass1234"
+   echo "Usage: $0 -a encrypt -t 'pass@1234'"
    echo " -a action (ex. encrypt or decrypt)"
    echo " -t plaintext or chipertext"
    exit 1 # Exit script after printing help
