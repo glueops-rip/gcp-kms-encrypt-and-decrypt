@@ -26,7 +26,8 @@ then
 fi
 
 
-key=`gcloud kms keyrings list --location=global --format=json | jq .[0].name -r`
+keyring=`gcloud kms keyrings list --location=global --format=json | jq .[0].name -r`
+key=`gcloud kms keys list --keyring=$keyring --location=global --format=json | jq .[0].name -r`
 if [ "encrypt" = "${parameterA,,}" ]; then
 PLAINTEXT=$parameterT
 echo "Encrypting Text: $PLAINTEXT"
