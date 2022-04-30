@@ -4,31 +4,30 @@
 helpFunction()
 {
    echo ""
-   echo "Usage: $0 -e enviroment -a encrypt -t pass1234"
-   echo " -e environment (ex. development, uat, production)"
+   echo "Usage: $0 -a encrypt -t 'pass@1234'"
    echo " -a action (ex. encrypt or decrypt)"
    echo " -t plaintext or chipertext"
    exit 1 # Exit script after printing help
 }
 
-while getopts "e:a:t:" opt
+while getopts "a:t:" opt
 do
    case "$opt" in
-      e ) parameterE="$OPTARG" ;;
       a ) parameterA="$OPTARG" ;;
       t ) parameterT="$OPTARG" ;;
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
 
-if [ -z "$parameterE" ] || [ -z "$parameterA" ] || [ -z "$parameterT" ]
+if [ -z "$parameterA" ] || [ -z "$parameterT" ]
 then
    echo "Some or all of the parameters are empty";
    helpFunction
 fi
 
 
-key=`gcloud kms keys list --keyring=$parameterE --location=global --format=json | jq .[0].name -r`
+keyring=`gcloud kms keyrings list --location=global --format=json | jq .[0].name -r`
+key=`gcloud kms keys list --keyring=$keyring --location=global --format=json | jq .[0].name -r`
 if [ "encrypt" = "${parameterA,,}" ]; then
 PLAINTEXT=$parameterT
 echo "Encrypting Text: $PLAINTEXT"
