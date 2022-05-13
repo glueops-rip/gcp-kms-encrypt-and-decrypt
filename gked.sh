@@ -32,7 +32,7 @@ if [ "encrypt" = "${parameterA,,}" ]; then
 PLAINTEXT=$parameterT
 echo "Encrypting Text: $PLAINTEXT"
 ENCRYPTED=`curl -s "https://cloudkms.googleapis.com/v1/$key:encrypt" \
-  -d "{\"plaintext\":\"$(echo $PLAINTEXT | base64 -w 0)\"}" \
+  -d "{\"plaintext\":\"$(echo -n $PLAINTEXT | base64 -w 0)\"}" \
   -H "Authorization:Bearer $(gcloud auth application-default print-access-token)"\
   -H "Content-Type:application/json" \
 | jq .ciphertext -r`
